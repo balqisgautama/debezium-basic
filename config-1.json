@@ -1,0 +1,201 @@
+{
+    "name": "changelog-ingestion",
+    "config": {
+        "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+        "topic.creation.default.partitions": "1",
+        "tasks.max": "1",
+        "transforms": "changes",
+        "include.schema.changes": "true",
+        "tombstones.on.delete": "false",
+        "topic.prefix": "beta_changelog",
+        "decimal.handling.mode": "string",
+        "schema.history.internal.kafka.topic": "schema-changes.changelog_schema_history",
+        "topic.creation.default.replication.factor": "3",
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "transforms.changes.header.unchanged.name": "Unchanged",
+        "database.user": "root", 
+        "database.server.id": "1001", 
+        "time.precision.mode": "connect",
+        "schema.history.internal.kafka.bootstrap.servers": "kafka-broker-1:9092", 
+        "transforms.changes.type": "io.debezium.transforms.ExtractChangedRecordState",
+        "topic.creation.enable": "true",
+        "key.converter.schemas.enable": "false",
+        "database.hostname": "mysql",
+        "database.connectionTimeZone": "America/New_York",
+        "database.password": "password",
+        "value.converter.schemas.enable": "false",
+        "table.include.list": "rekeningku_main.vauser",
+        "snapshot.mode": "schema_only",
+        "database.include.list": "rekeningku_main",
+        "transforms.changes.header.changed.name": "Changed"
+    }
+}
+
+{
+  "name": "legacy-ingestion",
+  "config": {
+    "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+    "topic.creation.default.partitions": "1",
+    "tasks.max": "1",
+    "transforms": "changes",
+    "include.schema.changes": "true",
+    "tombstones.on.delete": "false",
+    "topic.prefix": "beta_ingestion_v2",
+    "decimal.handling.mode": "string",
+    "schema.history.internal.kafka.topic": "schema-changes.inventory_ingestion_3",
+    "topic.creation.default.replication.factor": "3",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "transforms.changes.header.unchanged.name": "Unchanged",
+    "database.user": "root",
+    "database.server.id": "1001",
+    "time.precision.mode": "connect",
+    "schema.history.internal.kafka.bootstrap.servers": "kafka-broker-1:9092",
+    "transforms.changes.type": "io.debezium.transforms.ExtractChangedRecordState",
+    "topic.creation.enable": "true",
+    "key.converter.schemas.enable": "false",
+    "database.hostname": "mysql",
+    "database.connectionTimeZone": "America/New_York",
+    "database.password": "password",
+    "value.converter.schemas.enable": "false",
+    "table.include.list": "rekeningku_main.withdraw_deposit,rekeningku_main.transactions,rekeningku_main.orderbook,rekeningku_main.orderbook_cancel,rekeningku_main.savings,rekeningku_main.wallets,reku_staking.user_subscribes,pockets.pocket_transaction_histories,pockets.pockets,rekeningku_main.vauser",
+    "snapshot.mode": "schema_only",
+    "database.include.list": "rekeningku_main,reku_staking,pockets",
+    "transforms.changes.header.changed.name": "Changed"
+  }
+}
+
+curl -X POST 'localhost:8083/connectors' --header "Content-Type: application/json" --data '{"name":"legacy-ingestion","config":{"connector.class":"io.debezium.connector.mysql.MySqlConnector","topic.creation.default.partitions":"1","tasks.max":"1","transforms":"changes","include.schema.changes":"true","tombstones.on.delete":"false","topic.prefix":"beta_ingestion_v2","decimal.handling.mode":"string","schema.history.internal.kafka.topic":"schema-changes.inventory_ingestion_3","topic.creation.default.replication.factor":"3","value.converter":"org.apache.kafka.connect.json.JsonConverter","key.converter":"org.apache.kafka.connect.json.JsonConverter","transforms.changes.header.unchanged.name":"Unchanged","database.user":"root","database.server.id":"1001","time.precision.mode":"connect","schema.history.internal.kafka.bootstrap.servers":"kafka-broker-1:9092","transforms.changes.type":"io.debezium.transforms.ExtractChangedRecordState","topic.creation.enable":"true","key.converter.schemas.enable":"false","database.hostname":"mysql","database.connectionTimeZone":"America/New_York","database.password":"password","value.converter.schemas.enable":"false","table.include.list":"rekeningku_main.withdraw_deposit,rekeningku_main.transactions,rekeningku_main.orderbook,rekeningku_main.orderbook_cancel,rekeningku_main.savings,rekeningku_main.wallets,reku_staking.user_subscribes,pockets.pocket_transaction_histories,pockets.pockets,rekeningku_main.vauser","snapshot.mode":"schema_only","database.include.list":"rekeningku_main,reku_staking,pockets","transforms.changes.header.changed.name":"Changed"}}'
+
+
+{
+    "name": "changelog-ingestion",
+    "config": {
+        "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+        "topic.creation.default.partitions": "1",
+        "topic.creation.default.replication.factor": 1,
+        "topic.creation.default.partitions": 1,
+        "tasks.max": "1",
+        "transforms": "changes",
+        "include.schema.changes": "true",
+        "tombstones.on.delete": "false",
+        "topic.prefix": "beta_changelog",
+        "decimal.handling.mode": "string",
+        "schema.history.internal.kafka.topic": "schema-changes.changelog_schema_history",
+        "topic.creation.default.replication.factor": "3",
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "transforms.changes.header.unchanged.name": "Unchanged",
+        "time.precision.mode": "connect",
+        "schema.history.internal.kafka.bootstrap.servers": "kafka:9092", 
+        "transforms.changes.type": "io.debezium.transforms.ExtractChangedRecordState",
+        "topic.creation.enable": "true",
+        "key.converter.schemas.enable": "false",
+        "database.hostname": "mysql",
+        "database.port": "3306",
+        "database.user": "debezium", 
+        "database.server.id": "223344", 
+        "database.password": "dbz",
+        "database.include.list": "inventory",
+        "database.connectionTimeZone": "America/New_York",
+        "value.converter.schemas.enable": "false",
+        "table.include.list": "inventory.vauser",
+        "snapshot.mode": "schema_only",
+        "transforms.changes.header.changed.name": "Changed"
+    }
+}
+
+curl -X POST 'localhost:8083/connectors' --header "Content-Type: application/json" --data '{"name":"changelog-ingestion","config":{"connector.class":"io.debezium.connector.mysql.MySqlConnector","topic.creation.default.partitions":1,"topic.creation.default.replication.factor":"3","tasks.max":"1","transforms":"changes","include.schema.changes":"true","tombstones.on.delete":"false","topic.prefix":"beta_changelog","decimal.handling.mode":"string","schema.history.internal.kafka.topic":"schema-changes.changelog_schema_history","value.converter":"org.apache.kafka.connect.json.JsonConverter","key.converter":"org.apache.kafka.connect.json.JsonConverter","transforms.changes.header.unchanged.name":"Unchanged","time.precision.mode":"connect","schema.history.internal.kafka.bootstrap.servers":"kafka:9092","transforms.changes.type":"io.debezium.transforms.ExtractChangedRecordState","topic.creation.enable":"true","key.converter.schemas.enable":"false","database.hostname":"mysql","database.port":"3306","database.user":"debezium","database.server.id":"223344","database.password":"dbz","database.include.list":"inventory","database.connectionTimeZone":"America/New_York","value.converter.schemas.enable":"false","table.include.list":"inventory.vauser","snapshot.mode":"schema_only","transforms.changes.header.changed.name":"Changed"}}'
+
+
+{
+  "name": "changelog-ingestion",
+  "config": {
+    "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+    "tasks.max": "1",
+
+    "database.hostname": "mysql",
+    "database.port": "3306",
+    "database.user": "debezium_user",
+    "database.password": "dbz",
+    "database.server.id": "223344",
+    "database.include.list": "testdb",
+    "database.connectionTimeZone": "America/New_York",
+    "table.include.list": "testdb.vauser",
+
+    "snapshot.mode": "initial", 
+
+    "include.schema.changes": "true",
+    "tombstones.on.delete": "false",
+    "decimal.handling.mode": "string",
+    "time.precision.mode": "connect",
+
+    "topic.prefix": "beta_changelog",
+    "topic.creation.enable": "true",
+    "topic.creation.default.partitions": "1",
+    "topic.creation.default.replication.factor": "1",
+
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+
+    "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
+    "schema.history.internal.kafka.topic": "schema-changes.rekening_db.vauser",
+    "auto.create.topics.enable": "true",
+    
+    "transforms": "changes",
+    "transforms.changes.type": "io.debezium.transforms.ExtractChangedRecordState",
+    "transforms.changes.header.changed.name": "Changed",
+    "transforms.changes.header.unchanged.name": "Unchanged"
+  }
+}
+
+curl -X POST 'localhost:8083/connectors' --header "Content-Type: application/json" --data '{"name":"changelog-ingestion","config":{"connector.class":"io.debezium.connector.mysql.MySqlConnector","tasks.max":"1","database.hostname":"mysql","database.port":"3306","database.user":"debezium_user","database.password":"dbz","database.server.id":"223344","database.include.list":"testdb","database.connectionTimeZone":"America/New_York","table.include.list":"testdb.vauser","snapshot.mode":"initial","include.schema.changes":"true","tombstones.on.delete":"false","decimal.handling.mode":"string","time.precision.mode":"connect","topic.prefix":"beta_changelog","topic.creation.enable":"true","topic.creation.default.partitions":"1","topic.creation.default.replication.factor":"1","value.converter":"org.apache.kafka.connect.json.JsonConverter","value.converter.schemas.enable":"false","key.converter":"org.apache.kafka.connect.json.JsonConverter","key.converter.schemas.enable":"false","schema.history.internal.kafka.bootstrap.servers":"kafka:9092","schema.history.internal.kafka.topic":"schema-changes.rekening_db.vauser","auto.create.topics.enable":"true","transforms":"changes","transforms.changes.type":"io.debezium.transforms.ExtractChangedRecordState","transforms.changes.header.changed.name":"Changed","transforms.changes.header.unchanged.name":"Unchanged"}}'
+
+
+{
+  "name": "changelog-ingestion",
+  "config": {
+    "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+    "tasks.max": "1",
+
+    "database.hostname": "mysql",
+    "database.port": "3306",
+    "database.user": "root",
+    "database.password": "password",
+    "database.server.id": "1001",
+    "database.include.list": "rekeningku_main",
+    "database.connectionTimeZone": "America/New_York",
+    "table.include.list": "rekeningku_main.vauser",
+
+    "snapshot.mode": "initial", 
+
+    "include.schema.changes": "true",
+    "tombstones.on.delete": "false",
+    "decimal.handling.mode": "string",
+    "time.precision.mode": "connect",
+
+    "topic.prefix": "beta_changelog",
+    "topic.creation.enable": "true",
+    "topic.creation.default.partitions": "1",
+    "topic.creation.default.replication.factor": "1",
+
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+
+    "schema.history.internal.kafka.bootstrap.servers": "kafka-broker-1:9092",
+    "schema.history.internal.kafka.topic": "schema-changes.rekeningku_main.vauser",
+    "auto.create.topics.enable": "true",
+    
+    "transforms": "changes",
+    "transforms.changes.type": "io.debezium.transforms.ExtractChangedRecordState",
+    "transforms.changes.header.changed.name": "Changed",
+    "transforms.changes.header.unchanged.name": "Unchanged"
+  }
+}
+
+curl -X POST 'localhost:8083/connectors' --header "Content-Type: application/json" --data '{"name":"changelog-ingestion","config":{"connector.class":"io.debezium.connector.mysql.MySqlConnector","tasks.max":"1","database.hostname":"mysql","database.port":"3306","database.user":"root","database.password":"password","database.server.id":"1001","database.include.list":"rekeningku_main","database.connectionTimeZone":"America/New_York","table.include.list":"rekeningku_main.vauser","snapshot.mode":"initial","include.schema.changes":"true","tombstones.on.delete":"false","decimal.handling.mode":"string","time.precision.mode":"connect","topic.prefix":"beta_changelog","topic.creation.enable":"true","topic.creation.default.partitions":"1","topic.creation.default.replication.factor":"1","value.converter":"org.apache.kafka.connect.json.JsonConverter","value.converter.schemas.enable":"false","key.converter":"org.apache.kafka.connect.json.JsonConverter","key.converter.schemas.enable":"false","schema.history.internal.kafka.bootstrap.servers":"kafka-broker-1:9092","schema.history.internal.kafka.topic":"schema-changes.rekeningku_main.vauser","auto.create.topics.enable":"true","transforms":"changes","transforms.changes.type":"io.debezium.transforms.ExtractChangedRecordState","transforms.changes.header.changed.name":"Changed","transforms.changes.header.unchanged.name":"Unchanged"}}'
