@@ -1,0 +1,26 @@
+curl localhost:8083/connectors?expand=status
+curl localhost:8083/connectors/legacy-ingestion/config
+curl -i -X DELETE localhost:8083/connectors/changelog-ingestion
+
+
+// mysql
+
+GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT, INSERT, UPDATE, DELETE ON *.* TO 'debezium'@'%';
+
+CREATE USER 'debezium_user'@'%' IDENTIFIED BY 'Debezium123!';
+GRANT ALL PRIVILEGES ON *.* TO 'debezium_user'@'%' WITH GRANT OPTION;
+GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'debezium_user'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+GRANT INSERT, UPDATE, DELETE ON testdb.* TO 'debezium_user'@'%';
+
+// kafka
+
+    kafka-console-consumer --bootstrap-server localhost:9092 \
+    --topic beta_changelog.inventory.vauser \
+    --from-beginning
+
+// docker
+
+docker-compose down  
+docker-compose up -d
